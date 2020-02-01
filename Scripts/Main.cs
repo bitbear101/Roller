@@ -100,14 +100,16 @@ public class Main : Node2D
         //Save the lap time and reset for next level
         GD.Print("finnished level");
         GetNode<SaveSystem>("/root/SaveSystem");
+        
+        level++;
     }
 
-    public void StoreScore(int score)
+    public void SaveScore(int level, int min, int sec)
     {
         //Read up on how to do it
     }
 
-    public int LoadScore()
+    public void LoadScore()
     {
         //Read up on how to load the score
         return 0;
@@ -137,5 +139,21 @@ public class Main : Node2D
         }
 
         hudScript.UpdateLapTime(lapTimeMinutes.ToString() + ":" + lapTimeSeconds.ToString());
+    }
+    private void ResetLevel()
+    {
+            //get_tree().queue_free()
+        //get_tree().remove_child(self)
+        
+        LapTimeMinutes = 0;
+        LapTimeSeconds = 0;
+        
+        StartLevel();
+    //Delete the level
+    //Delete the ball
+    //Reset the timer
+    //Load new level
+    //Load the ball again
+    //Start the LapStartTick again
     }
 }
