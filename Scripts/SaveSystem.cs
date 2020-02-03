@@ -3,7 +3,7 @@ using System;
 
 public class SaveSystem : Node2D
 {
-    int value = 0;
+    int seconds = 0;
     String savePath = "res://saveFile.cfg"; 
     ConfigFile config = new ConfigFile();
     Error LoadResponse;
@@ -13,14 +13,14 @@ public class SaveSystem : Node2D
         LoadResponse = config.Load(savePath);
     }
 
-   public void Save(String section, String key, int level, int val)
+   public void Save(String section, String key, int sec)
    {
-       config.SetValue(section, key, val);
+       config.SetValue(section, key, sec);
        config.Save(savePath);
    } 
    public int Load(string section, string key)
    {
        //Returns object type that has been cast to int
-       return (int)config.GetValue(section, key, value);
+       return (int)config.GetValue(section, key, seconds);
    }
 }

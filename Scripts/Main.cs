@@ -84,35 +84,51 @@ public class Main : Node2D
     }
     public void ShowMenu()
     {
+        /*
         //Removes the balls gravity
         GetNode<RigidBody2D>("ball").GravityScale = 0;
         //Set the velocities of the ball to zero after storing them so tat when the menu is called the ball does not keep moving
         ballVelocity = GetNode<RigidBody2D>("ball").LinearVelocity;
         GetNode<RigidBody2D>("ball").LinearVelocity = Vector2.Zero;
         ballAngelVelocity = GetNode<RigidBody2D>("ball").AngularVelocity;
-        GetNode<RigidBody2D>("ball").AngularVelocity = 0f;
+        //GetNode<RigidBody2D>("ball").AngularVelocity = 0f;
+        */
         //Stop the timer when the game is paused
         lapTimer.Stop();
     }
 
     private void LapDone()
     {
-        //Save the lap time and reset for next level
-        GD.Print("finnished level");
-        GetNode<SaveSystem>("/root/SaveSystem");
-        
-        level++;
+        //Stop the lap timer
+        lapTimer.Stop();
+        //Save the lap time converted to only seconds
+        SaveScore(level, (lapTimeSeconds + lapTimeMinutes * 60));
+
+        ResetLevel();
+  hudScript.LoadMenu();
+        hudScript.ShowMessage(("Lap time for level " + level + "\n" + lapTimeMinutes + ":" + lapTimeSeconds));
+
+        lapTimeMinutes = 0;
+        lapTimeSeconds = 0;
+        hudScript.UpdateLapTime("");
+      
+
+        // level++;
+
+        //if (level < levels.Count)
+        // {
+        //    ResetLevel();
+        //}
     }
 
-    public void SaveScore(int level, int min, int sec)
+    public void SaveScore(int level, int sec)
     {
-        //Read up on how to do it
+        GetNode<SaveSystem>("/root/SaveSystem").Save("Level Times", level.ToString(), sec);
     }
 
     public void LoadScore()
     {
-        //Read up on how to load the score
-        return 0;
+        GetNode<SaveSystem>("/root/SaveSystem").Load("Level Times", level.ToString());
     }
     private void LapStartTick()
     {
@@ -128,7 +144,6 @@ public class Main : Node2D
             GetNode<RigidBody2D>("ball").GravityScale = 5;
         }
     }
-
     private void LapTimerTick()
     {
         lapTimeSeconds++;
@@ -142,18 +157,9 @@ public class Main : Node2D
     }
     private void ResetLevel()
     {
-            //get_tree().queue_free()
-        //get_tree().remove_child(self)
-        
-        LapTimeMinutes = 0;
-        LapTimeSeconds = 0;
-        
-        StartLevel();
-    //Delete the level
-    //Delete the ball
-    //Reset the timer
-    //Load new level
-    //Load the ball again
-    //Start the LapStartTick again
+        GetTree().QueueDelete(currentLevel);
+        GetTree().QueueDelete(ball);
+
+        ShowMenu();
     }
 }

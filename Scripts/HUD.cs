@@ -12,8 +12,6 @@ public class HUD : CanvasLayer
     Label lapTime;
     Button startBtn;
     Button exitBtn;
-    Button menuBtn;
-    Button resumeBtn;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -22,8 +20,6 @@ public class HUD : CanvasLayer
         lapTime = GetNode<Label>("LapTime");
         startBtn = GetNode<Button>("Start");
         exitBtn = GetNode<Button>("Exit");
-        menuBtn = GetNode<Button>("Menu");
-        resumeBtn = GetNode<Button>("Resume");
         //Hide all the HUD controls for the first start up of the game
         HideUI();
         //Show the UI nodes needed for the start menu
@@ -35,20 +31,17 @@ public class HUD : CanvasLayer
         HideUI();
         EmitSignal(nameof(ShowMenu));
         exitBtn.Show();
-        resumeBtn.Show();
     }
     private void LoadHUD()
     {
         HideUI();
         EmitSignal(nameof(ShowHUD));
         lapTime.Show();
-        menuBtn.Show();
-
+        exitBtn.Show();
     }
     public void LoadStartMenu()
     {
         LoadMenu();
-        resumeBtn.Hide();
         startBtn.Show();
     }
     public void ShowMessage(string text)
@@ -73,8 +66,6 @@ public class HUD : CanvasLayer
         lapTime.Hide();
         startBtn.Hide();
         exitBtn.Hide();
-        menuBtn.Hide();
-        resumeBtn.Hide();
     }
     //This function is called when the user clicks the start buttob in the menu
     private void StartGamePressed()
