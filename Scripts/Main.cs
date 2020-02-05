@@ -113,6 +113,7 @@ public class Main : Node2D
         }
         else
         {
+        level++;
             GD.Print("Going to new level");
             //Stop the lap timer
             lapTimer.Stop();
@@ -126,9 +127,10 @@ public class Main : Node2D
             lapTimeMinutes = 0;
             lapTimeSeconds = 0;
             hudScript.UpdateLapTime("");
+            levelResetTimer.Start();
             levelWait();
-            level++;
-            StartLevel();
+            
+           
         }
 
 
@@ -138,6 +140,7 @@ public class Main : Node2D
     {
         GD.Print("Waiting");
         await ToSignal(levelResetTimer, "timeout");
+        StartLevel();
         GD.Print("Finnished waiting");
     }
 
