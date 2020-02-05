@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Scripts/GoalArea.cs" type="Script" id=1]
+[ext_resource path="res://Scripts/GetColliderShape.cs" type="Script" id=2]
+[ext_resource path="res://Nodes/Platform.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Sprites/Rock.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Portal.png" type="Texture" id=5]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 10, 20 )
+
+[node name="Node2D" type="Node2D"]
+
+[node name="GoalArea" type="Area2D" parent="."]
+position = Vector2( 1320, 2860 )
+collision_layer = 8
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalArea"]
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="GoalArea"]
+texture = ExtResource( 5 )
+
+[node name="SpawnPoint" type="Node2D" parent="."]
+position = Vector2( -20, -130 )
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+antialiased = true
+texture = ExtResource( 4 )
+polygon = PoolVector2Array( -70, -80, 25.5795, -51.2003, -34.1878, 3.03519, -1760, 960, -1760, 1170, 119.239, 75.1724, 214.439, 19.6392, 260, -150, -360, -550, -1950, -550, -1950, 1920, -1870, 1840, -1870, 1290, -1730, 1340, -1460, 1550, -1300, 1590, -920, 1760, -420, 1990, -350, 2020, -190, 2150, 0, 2240, 320, 2250, 780, 2270, 1120, 2280, 1258.5, 2354.32, 970, 2700, 880, 2940, 1050, 3280, 1300, 3280, 1750, 2990, 2270, 2420, 1950, 2230, 1560, 2440, 1640, 2530, 1690, 2660, 1700, 2770, 1650, 2880, 1560, 2940, 1450, 2940, 1370, 2920, 1300, 2880, 1260, 2790, 1270, 2680, 1350, 2570, 1530, 2500, 1320, 2350, 1160, 2260, 850, 2240, 330, 2220, 30, 2210, -180, 2110, -300, 1990, -150, 1880, -330, 1950, -380, 1960, -780, 1780, -650, 1710, -860, 1750, -1260, 1580, -1250, 1560, -1100, 1500, -1300, 1560, -1450, 1530, -1650, 1380, -1660, 1350, -1590, 1300, -1640, 1320, -1700, 1320, -1850, 1250, -1870, 1207.2, -1870, -480, -1420, -480, -460, -480, 80.6108, -124.417 )
+
+[node name="KinematicBody2D" type="KinematicBody2D" parent="Polygon2D"]
+collision_layer = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Polygon2D/KinematicBody2D"]
+script = ExtResource( 2 )
+
+[node name="Platform" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -150, -50 )
+rotation = -1.5708
+collision_layer = 2
+
+[node name="Platform6" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -310, 40 )
+rotation = -1.5708
+collision_layer = 2
+
+[node name="Platform4" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -470, 130 )
+rotation = -1.5708
+collision_layer = 2
+
+[node name="Platform5" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -630, 220 )
+rotation = -1.5708
+collision_layer = 2
+
+[node name="Platform9" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -790, 310 )
+rotation = -1.5708
+collision_layer = 2
+
+[node name="Platform7" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -1820, 970 )
+collision_layer = 2
+
+[node name="Platform8" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -1460, 1260 )
+rotation = -1.5708
+collision_layer = 2
+
+[node name="Platform10" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -940, 1420 )
+rotation = -1.5708
+collision_layer = 2
+
+[node name="Platform11" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( -490, 1610 )
+rotation = -1.5708
+collision_layer = 2
+
+[node name="Platform12" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( 10, 1770 )
+rotation = -1.5708
+collision_layer = 2
+[connection signal="body_entered" from="GoalArea" to="GoalArea" method="BodyEntered"]

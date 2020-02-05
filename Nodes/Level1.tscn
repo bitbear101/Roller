@@ -1,12 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Scripts/GoalArea.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/GetColliderShape.cs" type="Script" id=2]
 [ext_resource path="res://Nodes/Platform.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Sprites/Rock.png" type="Texture" id=4]
+[ext_resource path="res://Sprites/Portal.png" type="Texture" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 30, 30 )
+extents = Vector2( 10, 20 )
 
 [node name="Node2D" type="Node2D"]
 
@@ -17,6 +18,9 @@ script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoalArea"]
 shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="GoalArea"]
+texture = ExtResource( 5 )
 
 [node name="SpawnPoint" type="Node2D" parent="."]
 position = Vector2( 150, -40 )

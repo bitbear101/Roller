@@ -11,5 +11,8 @@ script = ExtResource( 1 )
 [node name="CountDownTimer" type="Timer" parent="."]
 
 [node name="LapTimer" type="Timer" parent="."]
+
+[node name="LevelResetTimer" type="Timer" parent="."]
+wait_time = 4.0
 [connection signal="timeout" from="CountDownTimer" to="." method="LapStartTick"]
 [connection signal="timeout" from="LapTimer" to="." method="LapTimerTick"]

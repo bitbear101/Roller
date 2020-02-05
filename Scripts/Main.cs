@@ -33,6 +33,7 @@ public class Main : Node2D
     //Stores the balls angular velocity when puasung the game
     float ballAngelVelocity;
     // Called when the node enters the scene tree for the first time.
+    Timer levelResetTimer;
     public override void _Ready()
     {
         lapTimer = GetNode<Timer>("LapTimer");
@@ -43,6 +44,7 @@ public class Main : Node2D
         hudScript = GetNode<HUD>("HUD");
         //Load the levels in the list of levels
         levels.Add(ResourceLoader.Load("res://Nodes/Level1.tscn") as PackedScene);
+        levels.Add(ResourceLoader.Load("res://Nodes/Level2.tscn") as PackedScene);
 
         //Grabs the ball scene and loads it in a container for quick reference
         ballScene = (PackedScene)ResourceLoader.Load("res://Nodes/Ball.tscn");
@@ -50,10 +52,12 @@ public class Main : Node2D
         hud.Connect("ShowMenu", this, nameof(ShowMenu));
         //Connect to the HUDs signals for he show menu button functionality
         hud.Connect("ShowHUD", this, nameof(StartLevel));
+
+        levelResetTimer = GetNode<Timer>("LevelResetTimer");
     }
     public void StartLevel()
     {
-        if (level < levels.Count)
+        if (level >= levels.Count)
         {
             //Throws error if the amount of levels exceed the list size and returns out of thte method
             GD.PrintErr("Level exceeds the max amount of layers");
@@ -99,27 +103,45 @@ public class Main : Node2D
 
     private void LapDone()
     {
-        //Stop the lap timer
-        lapTimer.Stop();
-        //Save the lap time converted to only seconds
-        SaveScore(level, (lapTimeSeconds + lapTimeMinutes * 60));
+        GD.Print("Level = " + level + " Level.count = " + levels.Count);
 
-        ResetLevel();
-  hudScript.LoadMenu();
-        hudScript.ShowMessage(("Lap time for level " + level + "\n" + lapTimeMinutes + ":" + lapTimeSeconds));
+        if (level >= levels.Count)
+        {
 
-        lapTimeMinutes = 0;
-        lapTimeSeconds = 0;
-        hudScript.UpdateLapTime("");
-      
+            ResetLevel();
+            ShowMenu();
+        }
+        else
+        {
+            GD.Print("Going to new level");
+            //Stop the lap timer
+            lapTimer.Stop();
+            //Save the lap time converted to only seconds
+            SaveScore(level, (lapTimeSeconds + lapTimeMinutes * 60));
 
-        // level++;
+            ResetLevel();
+            hudScript.LoadMenu();
+            hudScript.ShowMessage(("Lap time for level " + level + "\n" + lapTimeMinutes + ":" + lapTimeSeconds));
 
-        //if (level < levels.Count)
-        // {
-        //    ResetLevel();
-        //}
+            lapTimeMinutes = 0;
+            lapTimeSeconds = 0;
+            hudScript.UpdateLapTime("");
+            levelWait();
+            level++;
+            StartLevel();
+        }
+
+
     }
+
+    private async void levelWait()
+    {
+        GD.Print("Waiting");
+        await ToSignal(levelResetTimer, "timeout");
+        GD.Print("Finnished waiting");
+    }
+
+
 
     public void SaveScore(int level, int sec)
     {
@@ -159,7 +181,5 @@ public class Main : Node2D
     {
         GetTree().QueueDelete(currentLevel);
         GetTree().QueueDelete(ball);
-
-        ShowMenu();
     }
 }
