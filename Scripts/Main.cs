@@ -57,10 +57,10 @@ public class Main : Node2D
     }
     public void StartLevel()
     {
-        if (level >= levels.Count)
+        if (level > levels.Count)
         {
             //Throws error if the amount of levels exceed the list size and returns out of thte method
-            GD.PrintErr("Level exceeds the max amount of layers");
+            GD.PrintErr("Level exceeds the max amount of layers: level = " + level + " Levels.Count = " + levels.Count);
             return;
         }
         else
@@ -103,45 +103,31 @@ public class Main : Node2D
 
     private void LapDone()
     {
-        GD.Print("Level = " + level + " Level.count = " + levels.Count);
+        SaveScore(level, (lapTimeSeconds + lapTimeMinutes * 60));
+         hudScript.ShowMessage(("Lap time for level " + level + "\n" + lapTimeMinutes + ":" + lapTimeSeconds));
+lapTimer.Stop(); 
+ResetLevel();
+ hudScript.UpdateLapTime("");
+hudScript.LoadMenu();
 
-        if (level >= levels.Count)
+        if (level < levels.Count)
         {
-
-            ResetLevel();
-            ShowMenu();
-        }
-        else
-        {
-        level++;
             GD.Print("Going to new level");
-            //Stop the lap timer
-            lapTimer.Stop();
-            //Save the lap time converted to only seconds
-            SaveScore(level, (lapTimeSeconds + lapTimeMinutes * 60));
-
-            ResetLevel();
-            hudScript.LoadMenu();
-            hudScript.ShowMessage(("Lap time for level " + level + "\n" + lapTimeMinutes + ":" + lapTimeSeconds));
-
+            level++;
             lapTimeMinutes = 0;
             lapTimeSeconds = 0;
-            hudScript.UpdateLapTime("");
             levelResetTimer.Start();
-            levelWait();
-            
-           
+            levelWait();     
         }
-
-
     }
 
     private async void levelWait()
     {
         GD.Print("Waiting");
-        await ToSignal(levelResetTimer, "timeout");
+        await ToSignal(levelResetTimer, "timeout");  
+         GD.Print("Finnished waiting");
         StartLevel();
-        GD.Print("Finnished waiting");
+     
     }
 
 
