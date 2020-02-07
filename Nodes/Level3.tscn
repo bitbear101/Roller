@@ -6,18 +6,21 @@
 [ext_resource path="res://Sprites/Rock.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Portal.png" type="Texture" id=5]
 
-[sub_resource type="Gradient" id=2]
+[sub_resource type="Gradient" id=1]
 colors = PoolColorArray( 0, 0, 0, 1, 0.149597, 0.491165, 0.890625, 1 )
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 10, 20 )
 
 [node name="Node2D" type="Node2D"]
 
 [node name="GoalArea" type="Area2D" parent="."]
-position = Vector2( 10, 2810 )
+position = Vector2( 0, 2980 )
 collision_layer = 8
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="GoalArea"]
 amount = 30
@@ -26,21 +29,21 @@ spread = 180.0
 gravity = Vector2( 0, 0 )
 initial_velocity = 30.0
 scale_amount_random = 1.0
-color_ramp = SubResource( 2 )
+color_ramp = SubResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoalArea"]
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="Sprite" type="Sprite" parent="GoalArea"]
 texture = ExtResource( 5 )
 
 [node name="SpawnPoint" type="Node2D" parent="."]
-position = Vector2( 150, -40 )
+position = Vector2( 0, -210 )
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 antialiased = true
 texture = ExtResource( 4 )
-polygon = PoolVector2Array( 10, -90, 150, 320, 320, 390, 230, 1160, 230, 2400, 290, 2400, 290, 2340, 500, 2430, 470, 2380, 320, 2310, 270, 2230, 290, 2190, 290, 1160, 390, 400, 510, 450, 860, 680, 1300, 870, 1440, 870, 1540, 800, 1480, 820, 1430, 830, 1370, 830, 1310, 810, 930, 650, 520, 380, 220, 260, 90, -80, 220, -80, 1622.03, 494.237, 1700, 650, 1720, 720, 1670, 750, 1730, 770, 1770, 800, 1810, 880, 1830, 950, 1830, 1010, 1820, 1060, 1800, 1090, 1760, 1120, 1690, 1140, 800, 1350, 594.813, 1456.7, 560, 1490, 550, 1530, 550, 2150, 330, 2220, 330, 2250, 550, 2180, 550, 2290, 550, 2648.27, 540, 2700, 510, 2740, 450, 2780, 380, 2790, 290, 2770, 230, 2720, 260, 2800, 190, 2860, 50, 2820, 60, 2780, 30, 2830, 10, 2840, -10, 2830, -30, 2800, -20, 2750, -40, 2800, -20, 2840, 10, 2860, 40, 2840, 190, 2880, 300, 2830, 350, 2840, 410, 2840, 480, 2820, 530, 2780, 600, 2720, 600, 2400, 600, 1547.04, 610, 1510, 639.969, 1488.2, 820, 1390, 1760, 1170, 1830, 1130, 1870, 1050, 1870, 920, 1830, 800, 1780, 740, 1747.89, 625.923, 1655, 440.477, 260, -150, 50, -150 )
+polygon = PoolVector2Array( 130, 2800, 20, 2960, 60, 2960, 200, 2800, 200, -280, 160, -320, -160, -320, -200, -280, -200, 2800, -60, 2960, -20, 2960, -130, 2800, -130, -240, 130, -240 )
 
 [node name="KinematicBody2D" type="KinematicBody2D" parent="Polygon2D"]
 collision_layer = 2
@@ -49,30 +52,34 @@ collision_layer = 2
 script = ExtResource( 2 )
 
 [node name="Platform" parent="Polygon2D" instance=ExtResource( 3 )]
-position = Vector2( 1670, 1020 )
-rotation = -1.5708
+position = Vector2( 0, 240 )
 collision_layer = 2
 
 [node name="Platform6" parent="Polygon2D" instance=ExtResource( 3 )]
-position = Vector2( 1580, 1040 )
-rotation = 1.5708
+position = Vector2( 0, 20 )
 collision_layer = 2
 
 [node name="Platform4" parent="Polygon2D" instance=ExtResource( 3 )]
-position = Vector2( 780, 1240 )
-rotation = -1.5708
+position = Vector2( 0, 670 )
 collision_layer = 2
 
 [node name="Platform5" parent="Polygon2D" instance=ExtResource( 3 )]
-position = Vector2( 640, 1320 )
-rotation = -1.5708
+position = Vector2( 0, 1060 )
+collision_layer = 2
+
+[node name="Platform9" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( 0, 950 )
 collision_layer = 2
 
 [node name="Platform7" parent="Polygon2D" instance=ExtResource( 3 )]
-position = Vector2( 420, 1710 )
+position = Vector2( 0, 450 )
 collision_layer = 2
 
 [node name="Platform8" parent="Polygon2D" instance=ExtResource( 3 )]
-position = Vector2( 420, 1870 )
+position = Vector2( 0, 2450 )
+collision_layer = 2
+
+[node name="Platform11" parent="Polygon2D" instance=ExtResource( 3 )]
+position = Vector2( 0, 1140 )
 collision_layer = 2
 [connection signal="body_entered" from="GoalArea" to="GoalArea" method="BodyEntered"]

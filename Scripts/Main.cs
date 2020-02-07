@@ -45,6 +45,7 @@ public class Main : Node2D
         //Load the levels in the list of levels
         levels.Add(ResourceLoader.Load("res://Nodes/Level1.tscn") as PackedScene);
         levels.Add(ResourceLoader.Load("res://Nodes/Level2.tscn") as PackedScene);
+        levels.Add(ResourceLoader.Load("res://Nodes/Level3.tscn") as PackedScene);
 
         //Grabs the ball scene and loads it in a container for quick reference
         ballScene = (PackedScene)ResourceLoader.Load("res://Nodes/Ball.tscn");
@@ -104,8 +105,9 @@ public class Main : Node2D
     private void LapDone()
     {
         SaveScore(level, (lapTimeSeconds + lapTimeMinutes * 60));
+        lapTimer.Stop(); 
          hudScript.ShowMessage(("Lap time for level " + level + "\n" + lapTimeMinutes + ":" + lapTimeSeconds));
-lapTimer.Stop(); 
+
 ResetLevel();
  hudScript.UpdateLapTime("");
 hudScript.LoadMenu();
@@ -119,6 +121,15 @@ hudScript.LoadMenu();
             levelResetTimer.Start();
             levelWait();     
         }
+        else
+        {
+            int level1time = GetNode<SaveSystem>("/root/SaveSystem").Load("Level Times", "1");
+            int level2time = GetNode<SaveSystem>("/root/SaveSystem").Load("Level Times", "2");
+            int level3time = GetNode<SaveSystem>("/root/SaveSystem").Load("Level Times", "3");
+
+            hudScript.ShowMessage("All levels are completed! \n" + "Level 1 time = " + level1time / 60 + ":" + level1time % 60 + "\n"+ "Level 2 time = " + level2time / 60 + ":" + level2time % 60 + "\n"+ "Level 3 time = " + level3time / 60 + ":" + level3time % 60 + "\n");
+        }
+
     }
 
     private async void levelWait()
@@ -127,6 +138,7 @@ hudScript.LoadMenu();
         await ToSignal(levelResetTimer, "timeout");  
          GD.Print("Finnished waiting");
         StartLevel();
+        hudScript.hudParticles.Hide();
      
     }
 

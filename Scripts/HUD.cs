@@ -12,9 +12,12 @@ public class HUD : CanvasLayer
     Label lapTime;
     Button startBtn;
     Button exitBtn;
+    public CPUParticles2D hudParticles;
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+     hudParticles = GetNode<CPUParticles2D>("HudParticles");
+
         //Grab a reffrence to all the nodes in the HUD scene 
         messageLabel = GetNode<Label>("MessageLabel");
         lapTime = GetNode<Label>("LapTime");
@@ -29,8 +32,11 @@ public class HUD : CanvasLayer
     public void LoadMenu()
     {
         HideUI();
+        hudParticles.Show();
         EmitSignal(nameof(ShowMenu));
+        messageLabel.Show();
         exitBtn.Show();
+        
     }
     private void LoadHUD()
     {
@@ -62,6 +68,7 @@ public class HUD : CanvasLayer
     //Hides all the UI nodes, use to quickly clear out hte screen of UI elements
     public void HideUI()
     {
+        hudParticles.Hide();
         messageLabel.Hide();
         lapTime.Hide();
         startBtn.Hide();

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Scripts/GoalArea.cs" type="Script" id=1]
 [ext_resource path="res://Scripts/GetColliderShape.cs" type="Script" id=2]
@@ -6,7 +6,10 @@
 [ext_resource path="res://Sprites/Rock.png" type="Texture" id=4]
 [ext_resource path="res://Sprites/Portal.png" type="Texture" id=5]
 
-[sub_resource type="RectangleShape2D" id=1]
+[sub_resource type="Gradient" id=2]
+colors = PoolColorArray( 0, 0, 0, 1, 0.149597, 0.491165, 0.890625, 1 )
+
+[sub_resource type="RectangleShape2D" id=3]
 extents = Vector2( 10, 20 )
 
 [node name="Node2D" type="Node2D"]
@@ -19,8 +22,17 @@ __meta__ = {
 "_edit_group_": true
 }
 
+[node name="CPUParticles2D" type="CPUParticles2D" parent="GoalArea"]
+amount = 30
+direction = Vector2( 0, 0 )
+spread = 180.0
+gravity = Vector2( 0, 0 )
+initial_velocity = 30.0
+scale_amount_random = 1.0
+color_ramp = SubResource( 2 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="GoalArea"]
-shape = SubResource( 1 )
+shape = SubResource( 3 )
 
 [node name="Sprite" type="Sprite" parent="GoalArea"]
 texture = ExtResource( 5 )
