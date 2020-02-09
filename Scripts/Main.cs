@@ -105,12 +105,11 @@ public class Main : Node2D
     private void LapDone()
     {
         SaveScore(level, (lapTimeSeconds + lapTimeMinutes * 60));
-        lapTimer.Stop(); 
-         hudScript.ShowMessage(("Lap time for level " + level + "\n" + lapTimeMinutes + ":" + lapTimeSeconds));
-
-ResetLevel();
- hudScript.UpdateLapTime("");
-hudScript.LoadMenu();
+        lapTimer.Stop();
+        hudScript.ShowMessage(("Lap time for level " + level + "\n" + lapTimeMinutes + ":" + lapTimeSeconds));
+        ResetLevel();
+        hudScript.UpdateLapTime("");
+        hudScript.LoadMenu();
 
         if (level < levels.Count)
         {
@@ -119,7 +118,7 @@ hudScript.LoadMenu();
             lapTimeMinutes = 0;
             lapTimeSeconds = 0;
             levelResetTimer.Start();
-            levelWait();     
+            levelWait();
         }
         else
         {
@@ -127,28 +126,22 @@ hudScript.LoadMenu();
             int level2time = GetNode<SaveSystem>("/root/SaveSystem").Load("Level Times", "2");
             int level3time = GetNode<SaveSystem>("/root/SaveSystem").Load("Level Times", "3");
 
-            hudScript.ShowMessage("All levels are completed! \n" + "Level 1 time = " + level1time / 60 + ":" + level1time % 60 + "\n"+ "Level 2 time = " + level2time / 60 + ":" + level2time % 60 + "\n"+ "Level 3 time = " + level3time / 60 + ":" + level3time % 60 + "\n");
+            hudScript.ShowMessage("All levels are completed! \n" + "Level 1 time = " + level1time / 60 + ":" + level1time % 60 + "\n" + "Level 2 time = " + level2time / 60 + ":" + level2time % 60 + "\n" + "Level 3 time = " + level3time / 60 + ":" + level3time % 60 + "\n");
         }
-
     }
-
     private async void levelWait()
     {
         GD.Print("Waiting");
-        await ToSignal(levelResetTimer, "timeout");  
-         GD.Print("Finnished waiting");
+        await ToSignal(levelResetTimer, "timeout");
+        GD.Print("Finnished waiting");
         StartLevel();
         hudScript.hudParticles.Hide();
-     
+
     }
-
-
-
     public void SaveScore(int level, int sec)
     {
         GetNode<SaveSystem>("/root/SaveSystem").Save("Level Times", level.ToString(), sec);
     }
-
     public void LoadScore()
     {
         GetNode<SaveSystem>("/root/SaveSystem").Load("Level Times", level.ToString());

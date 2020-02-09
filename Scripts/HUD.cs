@@ -58,6 +58,7 @@ public class HUD : CanvasLayer
 
     public void UpdateLapTime(String text)
     {
+        lapTime.Show();
         lapTime.Text = text;
     }
     public void HideMessage()
